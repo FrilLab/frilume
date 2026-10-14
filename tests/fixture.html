@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frilume Tistory mock fixture</title>
+  <link rel="stylesheet" href="../skin.css">
+  <style>
+    #content > [hidden], #content > nav.pagination[hidden] { display: none !important; }
+    .fixture-toolbar { display: flex; flex-wrap: wrap; gap: 8px; max-width: 1392px; margin: 18px auto; padding: 0 28px; }
+    .fixture-toolbar button { padding: 8px 12px; border: 1px solid var(--fril-line); border-radius: 8px; color: var(--fril-text); background: var(--fril-paper); }
+    .fixture-preview .tt-box-textarea { padding: 14px; }
+    .fixture-preview .tt-cmt { min-height: 52px; }
+    .layer_edit.layer_open { position: absolute; top: -12px; right: -10px; z-index: 2; display: block; padding: 8px 12px; border-radius: 8px; color: #172842; background: #ffcc49; }
+    .long-code { min-width: 960px; }
+  </style>
+</head>
+<body id="tt-body-index" class="layout-aside-right">
+  <div id="wrap">
+    <header id="header">
+      <div class="inner">
+        <h1><a href="#">Frilume Studio</a></h1>
+        <div class="util">
+          <div class="search fril-search">
+            <label for="mock-search" class="fril-search-open" title="검색창 열기" aria-label="검색창 열기"></label>
+            <label for="mock-search" class="screen_out">블로그 내 검색어</label>
+            <input id="mock-search" type="search" name="search" autocomplete="off" placeholder="검색어 입력" onkeypress="if (event.keyCode == 13) { window.mockTistorySearch(event) }">
+            <button type="button" class="fril-search-submit" onclick="window.mockTistorySearch(event)">검색</button>
+          </div>
+          <input class="fril-sr" type="checkbox" id="fril-mobile-switch" aria-label="사이드바 펼치기">
+          <label for="fril-mobile-switch" class="fril-mobile-trigger" aria-label="메뉴 열기"><span></span></label>
+          <div class="profile"><button type="button" aria-label="프로필 메뉴">프로필</button></div>
+          <button type="button" class="menu"><span>메뉴</span></button>
+        </div>
+        <nav id="gnb"><ul><li class="current"><a href="#">홈</a></li><li><a href="#">개발</a></li><li><a href="#">실험</a></li><li><a href="#">기록</a></li></ul></nav>
+      </div>
+    </header>
+    <label for="fril-mobile-switch" class="fril-mobile-scrim" aria-hidden="true"></label>
+
+    <div class="fixture-toolbar" aria-label="목업 페이지 이동">
+      <button type="button" data-view="home">홈</button>
+      <button type="button" data-view="category">카테고리</button>
+      <button type="button" data-view="search">검색 결과</button>
+      <button type="button" data-view="article">게시글 상세</button>
+    </div>
+
+    <section class="fril-hero" aria-label="블로그 소개">
+      <div class="fril-hero-body">
+        <div class="fril-eyebrow">THE CREATIVE ENGINEERING JOURNAL</div>
+        <h2>Ideas into <strong>reality.</strong></h2>
+        <p>코드를 설계하고, 만들고, 고치며 남기는 개발과 실험의 기록.</p>
+        <a class="fril-hero-cta" href="#content">글 둘러보기 <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section id="container">
+      <div class="content-wrap">
+        <article id="content">
+          <div class="inner" data-screen="home">
+            <div class="post-header"><h1>최근 글</h1></div>
+            <div class="post-item"><a href="#article"><span class="thum"><img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='9'%3E%3Crect width='16' height='9' fill='%232764e8'/%3E%3C/svg%3E"></span><span class="title">홈 화면 카드</span><span class="excerpt">카테고리와 검색 목록에서 사용하는 카드 미리보기.</span><span class="meta"><span class="date">2026.10.15</span></span></a></div>
+            <div class="post-item"><a href="#article"><span class="thum"></span><span class="title">썸네일 없는 게시글</span><span class="excerpt">브랜드 색상 대체 배경 확인.</span><span class="meta"><span class="date">2026.10.14</span></span></a></div>
+
+          </div>
+            <nav class="pagination" data-pager="home" aria-label="페이지 이동"><a class="prev" href="#previous">이전</a><a class="selected" href="#1">1</a><a href="#2">2</a><a href="#3">3</a><a href="#4">4</a><a href="#5">5</a><a href="#6">6</a><a href="#7">7</a><a href="#8">8</a><a href="#9">9</a><a href="#10">10</a><a href="#11">11</a><a href="#12">12</a><a href="#13">13</a><a href="#14">14</a><a class="next" href="#next">다음</a></nav>
+
+          <div class="inner" data-screen="category" hidden>
+            <div class="post-header"><h1>카테고리 <em>개발</em></h1></div>
+            <div class="post-item"><a href="#article"><span class="thum"></span><span class="title">카테고리 목록</span><span class="excerpt">목록 레이아웃과 제목이 표시됩니다.</span></a></div>
+
+          </div>
+            <nav class="pagination" data-pager="category" aria-label="페이지 이동"><a class="prev" href="#previous">이전</a><a class="selected" href="#1">1</a><a href="#2">2</a><a href="#3">3</a><a href="#4">4</a><a href="#5">5</a><a href="#6">6</a><a href="#7">7</a><a href="#8">8</a><a href="#9">9</a><a href="#10">10</a><a href="#11">11</a><a href="#12">12</a><a href="#13">13</a><a href="#14">14</a><a class="next" href="#next">다음</a></nav>
+
+          <div class="inner" data-screen="search" hidden>
+            <div class="post-header"><h1>검색 결과</h1></div>
+            <div class="post-item"><a href="#article"><span class="thum"></span><span class="title">검색 결과 글</span><span class="excerpt">검색 결과 목록에 표시되는 예시입니다.</span></a></div>
+
+          </div>
+            <nav class="pagination" data-pager="search" aria-label="페이지 이동"><a class="prev" href="#previous">이전</a><a class="selected" href="#1">1</a><a href="#2">2</a><a href="#3">3</a><a href="#4">4</a><a href="#5">5</a><a href="#6">6</a><a href="#7">7</a><a href="#8">8</a><a href="#9">9</a><a href="#10">10</a><a href="#11">11</a><a href="#12">12</a><a href="#13">13</a><a href="#14">14</a><a class="next" href="#next">다음</a></nav>
+
+          <div class="inner fixture-preview" data-screen="article" hidden>
+            <div class="post-cover">
+              <div class="inner">
+                <span class="category">개발 / 웹</span>
+                <h1>CSS 충돌을 줄이고 스킨을 안정화하는 방법</h1>
+                <span class="meta"><span class="author">by FrilLab</span><span class="date">2026.10.15</span></span>
+              </div>
+              <div class="layer_edit layer_open">수정 메뉴</div>
+            </div>
+            <div class="entry-content" id="article-view">
+              <h2 style="color: #000000">검정색으로 저장된 제목</h2>
+              <p style="color: #000000; background-color: #ffffff">다크 모드에서도 읽혀야 하는 기본 문단입니다. <strong style="color: #000000">강조 문구</strong>와 <a href="#link">링크</a>는 각각의 의미를 유지합니다.</p>
+              <ul><li style="color: #000000">기본 리스트 텍스트</li><li>https://example.com/very-long-unbroken-url-for-responsive-layout-check-with-no-soft-breaks-12345678901234567890</li></ul>
+              <blockquote style="background-color: #eef8e8; border-left-color: #8cb45b"><p style="color: #23461a; background-color: #ffffff">인용문은 자체 배경과 경계 색상으로 읽힙니다.</p></blockquote>
+              <table><tbody><tr><th style="color: #203040; background-color: #f0e5bc">환경</th><th>내용</th></tr><tr><td>목업</td><td>가로 넘침 검사</td></tr></tbody></table>
+              <figure data-ke-type="opengraph"><a href="#card"><div class="og-image" style="background-color:#dce8ff"></div><div class="og-text"><p class="og-title">Open Graph 제목</p><p class="og-desc">카드 설명 색상은 본문과 독립적입니다.</p><p class="og-host">example.com</p></div></a></figure>
+              <figure data-ke-type="video"><iframe title="video fixture" srcdoc="" width="560" height="315"></iframe></figure>
+              <p><img alt="샘플 이미지" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='9'%3E%3Crect width='16' height='9' fill='%23ffcc49'/%3E%3C/svg%3E"></p>
+              <pre><code class="hljs less"><span class="hljs-ln-numbers" aria-hidden="true">001</span>.card {
+  color: #2764e8;
+
+  padding: 12px;
+}</code></pre>
+              <pre><code class="hljs avrasm">LOAD R1, [R0]
+STORE R1, [R2]</code></pre>
+              <pre><code class="hljs http">GET /api/posts HTTP/1.1
+Host: example.com</code></pre>
+              <pre><code class="hljs crmsh">primitive p_ip ocf:heartbeat:IPaddr2
+  params ip=192.0.2.10</code></pre>
+              <pre class="short-code"><code class="hljs"><span class="hljs-keyword">const</span> short = true;</code></pre>
+              <pre><code class="long-code">const url = 'https://example.com/a-very-long-source-line-that-needs-horizontal-scrolling-without-pushing-the-sidebar-12345678901234567890';</code></pre>
+            </div>
+            <section class="related-articles">
+              <h2>관련글</h2>
+              <ul>
+                <li><a href="#related-image"><figure><img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='176' height='120'%3E%3Crect width='176' height='120' fill='%232764e8'/%3E%3C/svg%3E"></figure><span class="title">실제 썸네일이 있는 관련 글</span></a></li>
+                <li><a href="#related-empty"><figure></figure><span class="title">썸네일이 없는 관련 글</span></a></li>
+                <li><a href="#related-third"><figure></figure><span class="title">제목이 길어져도 모바일에서 카드가 깨지지 않는지 확인</span></a></li>
+                <li><a href="#related-fourth"><figure></figure><span class="title">네 번째 관련 글</span></a></li>
+              </ul>
+            </section>
+            <section class="comments">
+              <h2>댓글</h2>
+              <div class="tt-comments-wrap">
+                <div class="tt-box-textarea"><div class="tt-inner-g"><div class="tt-cmt" contenteditable="true" role="textbox" aria-label="댓글 입력" data-placeholder="댓글을 입력하세요"></div></div></div>
+                <textarea placeholder="댓글을 입력하세요"></textarea><button class="tt-btn_register">등록</button>
+              </div>
+              <div class="tt-comment-cont"><div class="tt-wrap-cmt"><a class="tt-link-user" href="#user">작성자 이름</a><p class="tt_desc">댓글 본문입니다.</p><span class="tt_date">2026.10.15 10:00</span><button class="tt-link-comment"><span class="tt_txt_g">답글</span></button></div></div>
+              <div data-tistory-react-app="Namecard"><div class="tt_box_namecard"><div class="tt_thumb_g"><img alt="프로필" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%232764e8'/%3E%3C/svg%3E"></div><div><div class="tt_tit_cont">FrilLab 블로그</div><p class="tt_desc">프로필과 소개 문구가 한 줄로 정렬되는 이름 카드입니다.</p></div></div></div>
+            </section>
+          </div>
+        </article>
+
+        <aside id="aside" class="sidebar">
+          <label for="fril-mobile-switch" class="fril-mobile-close">목차 닫기 ×</label>
+          <div class="sidebar-1"><div class="category"><h2>카테고리</h2><ul><li><a href="#">프런트엔드</a></li><li><a href="#">CSS 구조 개선</a></li></ul></div></div>
+          <div class="sidebar-2"><div class="notice"><h2>최근 글</h2><ul><li><a href="#">Tistory 스킨의 긴 URL 레이아웃 문제 확인용 긴 제목 텍스트</a></li></ul></div><div class="count"><h2>전체 방문자</h2><p class="total">12,345</p></div></div>
+        </aside>
+      </div>
+    </section>
+    <hr>
+    <footer id="footer"><div class="inner"><p class="copyright">Frilume Tistory mock fixture</p></div></footer>
+  </div>
+  <script>
+    window.__searchSubmissions = [];
+    window.mockTistorySearch = event => {
+      event.preventDefault();
+      const query = document.querySelector('#mock-search').value;
+      window.__searchSubmissions.push(query);
+    };
+    document.querySelectorAll('[data-view]').forEach(button => {
+      button.addEventListener('click', () => {
+        const screen = button.dataset.view;
+        document.body.id = screen === 'home' ? 'tt-body-index' : screen === 'article' ? 'tt-body-page' : `tt-body-${screen}`;
+        document.querySelectorAll('[data-screen]').forEach(section => { section.hidden = section.dataset.screen !== screen; });
+        document.querySelectorAll('[data-pager]').forEach(pager => { pager.hidden = pager.dataset.pager !== screen; });
+      });
+    });
+  </script>
+  <!-- PREVIEW_SERVER_INJECTS_SKIN_CODE_COPY_SCRIPT -->
+</body>
+</html>

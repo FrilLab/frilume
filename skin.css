@@ -4714,9 +4714,9 @@ hr[data-ke-style='style8'],
 }
 
 /* ======================================================================
- FrilLab Studio Skin v1.1 • Full stylesheet, not a fragment.
- Base: original Tistory skin rules + stable blue/yellow design overrides.
- Color selection is CSS-only using :has() and prefers-color-scheme.
+ Frilume stabilization layer.
+ The original Tistory compatibility rules above remain intact; custom tokens,
+ layout and component rules below follow the system color preference.
  ====================================================================== */
 :root {
   color-scheme: light;
@@ -4727,10 +4727,10 @@ hr[data-ke-style='style8'],
   --fril-heading: #101f36;
   --fril-muted: #63738b;
   --fril-line: #e0e7f0;
-  --fril-blue: #245cde;
-  --fril-blue-strong: #154ac4;
+  --fril-blue: #2764e8;
+  --fril-blue-strong: #1f50bd;
   --fril-blue-subtle: #edf3ff;
-  --fril-yellow: #ffce44;
+  --fril-yellow: #ffcc49;
   --fril-yellow-soft: #fff6d8;
   --fril-shadow: 0 24px 70px rgba(20, 48, 93, .065);
   --fril-shadow-hover: 0 24px 64px rgba(21, 51, 101, .14);
@@ -4749,48 +4749,12 @@ hr[data-ke-style='style8'],
   --fril-blue: #81aaff;
   --fril-blue-strong: #b0caff;
   --fril-blue-subtle: #1e3659;
-  --fril-yellow: #ffcf49;
+  --fril-yellow: #ffcc49;
   --fril-yellow-soft: #42391f;
   --fril-shadow: 0 24px 75px rgba(0, 0, 0, .2);
   --fril-shadow-hover: 0 24px 65px rgba(0, 0, 0, .34);
 } }
-html:has(#fril-mode-light:checked) {
-  color-scheme: light;
-  --fril-bg: #f4f7fc;
-  --fril-paper: #ffffff;
-  --fril-paper-2: #f7f9fd;
-  --fril-text: #172842;
-  --fril-heading: #101f36;
-  --fril-muted: #63738b;
-  --fril-line: #e0e7f0;
-  --fril-blue: #245cde;
-  --fril-blue-strong: #154ac4;
-  --fril-blue-subtle: #edf3ff;
-  --fril-yellow: #ffce44;
-  --fril-yellow-soft: #fff6d8;
-  --fril-shadow: 0 24px 70px rgba(20, 48, 93, .065);
-  --fril-shadow-hover: 0 24px 64px rgba(21, 51, 101, .14);
-  --fril-radius: 21px;
-  --fril-font: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Segoe UI', sans-serif;
-}
-html:has(#fril-mode-dark:checked) {
-  color-scheme: dark;
-  --fril-bg: #0b1423;
-  --fril-paper: #132137;
-  --fril-paper-2: #192b44;
-  --fril-text: #e2ebf8;
-  --fril-heading: #f7faff;
-  --fril-muted: #a4b4ca;
-  --fril-line: #2b3d57;
-  --fril-blue: #81aaff;
-  --fril-blue-strong: #b0caff;
-  --fril-blue-subtle: #1e3659;
-  --fril-yellow: #ffcf49;
-  --fril-yellow-soft: #42391f;
-  --fril-shadow: 0 24px 75px rgba(0, 0, 0, .2);
-  --fril-shadow-hover: 0 24px 65px rgba(0, 0, 0, .34);
-}
- reset limited to skin layout, not editor-injected post markup */
+/* Layout / Header / Navigation: component-level overrides follow. */
 html { scroll-behavior: smooth; }
 body { min-height: 100%; height: auto; font-family: var(--fril-font); color: var(--fril-text); line-height: 1.65; background: var(--fril-bg); }
 body *, body *::before, body *::after { box-sizing: border-box; }
@@ -4883,9 +4847,9 @@ body .list-type-text #content .post-item, body.list-type-text #content .post-ite
 body #tt-body-page #container { padding-top: 0; }
 body#tt-body-page #container { padding-top: 0; }
 body#tt-body-page .post-cover, body#tt-body-page .post-cover.notice { position: relative; top: auto; left: auto; }
-body .post-cover { position: relative; min-height: 260px; height: auto; display: flex; align-items: flex-end; width: 100%; margin: 0 0 34px; padding: 0; overflow: hidden; border-radius: 19px; background-color: #112e66; background-image: linear-gradient(125deg, #061b42 10%, #153b83 78%, #255ed1); }
-body .post-cover::before { background: linear-gradient(90deg, rgba(4,13,35,.82), rgba(7,22,56,.48)); }
-body .post-cover::after { content: ''; position: absolute; z-index: 0; inset: auto -70px -120px auto; width: 250px; height: 250px; border: 30px solid rgba(255, 206, 68, .24); border-radius: 50%; }
+body .post-cover { position: relative; isolation: isolate; min-height: 260px; height: auto; display: flex; align-items: flex-end; width: 100%; margin: 0 0 34px; padding: 0; overflow: visible; border-radius: 19px; background-color: #112e66; background-image: linear-gradient(125deg, #061b42 10%, #153b83 78%, #255ed1); }
+body .post-cover::before { z-index: 0; border-radius: inherit; background: linear-gradient(90deg, rgba(4,13,35,.82), rgba(7,22,56,.48)); }
+body .post-cover::after { content: ''; position: absolute; z-index: 0; right: 16px; bottom: 12px; width: min(180px, 34%); aspect-ratio: 1; border: 24px solid rgba(255, 204, 73, .24); border-radius: 50%; pointer-events: none; }
 body .post-cover .inner { display: block; position: relative; width: 100%; padding: 45px clamp(24px, 4vw, 56px); }
 body .post-cover .category { margin: 0 0 15px; color: #ffdc71; font-weight: 750; font-size: .82rem; }
 body .post-cover h1 { margin: 0; font-size: clamp(1.75rem, 3vw, 2.8rem); line-height: 1.35; font-weight: 780; letter-spacing: -.045em; color: white; }
@@ -4900,8 +4864,6 @@ body .entry-content h1, body .entry-content h2 { border-bottom: 1px solid var(--
 body .entry-content p { line-height: 1.95; margin: 0 0 1.3em; }
 body .entry-content a { color: var(--fril-blue); text-underline-offset: 3px; }
 body .entry-content :not(pre) > code { padding: .15em .36em; border-radius: 6px; color: var(--fril-blue-strong); background: var(--fril-blue-subtle); overflow-wrap: anywhere; }
-body .entry-content pre { padding: 18px 20px; border: 1px solid var(--fril-line); border-radius: 13px; background: var(--fril-paper-2); overflow-x: auto; overflow-wrap: normal; white-space: pre; font-size: .88rem; line-height: 1.7; }
-body .entry-content pre code { color: var(--fril-text); background: none; }
 body .entry-content blockquote { padding: 14px 24px; border-left: 4px solid var(--fril-yellow); border-radius: 0 12px 12px 0; color: var(--fril-text); background: var(--fril-paper-2); }
 body .entry-content blockquote p { color: inherit; }
 body .entry-content hr { border: 0; border-bottom: 1px solid var(--fril-line); }
@@ -4910,39 +4872,20 @@ body .entry-content table th { background: var(--fril-blue-subtle); color: var(-
 body .entry-content table th, body .entry-content table td { border-color: var(--fril-line); }
 body .entry-content img { max-width: 100%; height: auto; border-radius: 9px; }
 /* Tistory injects its own article-editor rules (#article-view ...) that set
-   #000/#333. Explicitly restore semantic colors for dark mode. */
+   #000/#333. The root inherits the theme; only tagged editor headings and
+   plain editor list items need an explicit color. Keep article components intact. */
 body #article-view { color: var(--fril-text); }
-body #article-view :is(p, li, dt, dd, figcaption, td) { color: var(--fril-text); }
-body #article-view :is(h1, h2, h3, h4, h5, h6) { color: var(--fril-heading); font-weight: 760; letter-spacing: -.025em; }
-body #article-view table :is(th, td) { padding: 10px 12px; color: var(--fril-text); border-color: var(--fril-line); }
-body #article-view table th { color: var(--fril-heading); background: var(--fril-blue-subtle); }
-html:has(#fril-mode-dark:checked) body #article-view table :is(td, th) { color: var(--fril-text); background-color: transparent; }
-@media (prefers-color-scheme: dark) { html:has(#fril-mode-auto:checked) body #article-view table :is(td, th) { color: var(--fril-text); background-color: transparent; } }
-html:has(#fril-mode-dark:checked) body #article-view table th { background: var(--fril-blue-subtle); color: var(--fril-heading); }
-@media (prefers-color-scheme: dark) { html:has(#fril-mode-auto:checked) body #article-view table th { background: var(--fril-blue-subtle); color: var(--fril-heading); } }
-html:has(#fril-mode-dark:checked) body #article-view table[data-ke-style] tr td { background-color: transparent; }
-@media (prefers-color-scheme: dark) { html:has(#fril-mode-auto:checked) body #article-view table[data-ke-style] tr td { background-color: transparent; } }
-body #article-view blockquote { color: var(--fril-text); border-color: var(--fril-yellow); }
-html:has(#fril-mode-dark:checked) body #article-view blockquote[data-ke-style] { color: var(--fril-text); background-color: var(--fril-paper-2); }
-@media (prefers-color-scheme: dark) { html:has(#fril-mode-auto:checked) body #article-view blockquote[data-ke-style] { color: var(--fril-text); background-color: var(--fril-paper-2); } }
-html:has(#fril-mode-dark:checked) body #article-view div[data-ke-type="moreLess"] { color: var(--fril-text); background: var(--fril-paper-2); border-color: var(--fril-line); }
-@media (prefers-color-scheme: dark) { html:has(#fril-mode-auto:checked) body #article-view div[data-ke-type="moreLess"] { color: var(--fril-text); background: var(--fril-paper-2); border-color: var(--fril-line); } }
-html:has(#fril-mode-dark:checked) body #article-view figure.fileblock { background: var(--fril-paper-2); border-color: var(--fril-line); }
-@media (prefers-color-scheme: dark) { html:has(#fril-mode-auto:checked) body #article-view figure.fileblock { background: var(--fril-paper-2); border-color: var(--fril-line); } }
-html:has(#fril-mode-dark:checked) body #article-view figure.fileblock :is(.filename, .size) { color: var(--fril-text); }
-@media (prefers-color-scheme: dark) { html:has(#fril-mode-auto:checked) body #article-view figure.fileblock :is(.filename, .size) { color: var(--fril-text); } }
+body #article-view a:not([class]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *) { color: var(--fril-blue); }
+body #article-view :is(h2, h3, h4)[data-ke-size]:not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *) { color: var(--fril-heading); font-weight: 760; letter-spacing: -.025em; }
+body #article-view :is(ul, ol):not([class]):not([id]) li:not([class]):not([id]):not(#blender52-tistory *) { color: var(--fril-text); }
+body #article-view figure[data-ke-type="opengraph"] .og-text { background-color: var(--fril-paper); }
+body #article-view figure[data-ke-type="opengraph"] .og-title { color: var(--fril-heading); }
+body #article-view figure[data-ke-type="opengraph"] :is(.og-desc, .og-host) { color: var(--fril-muted); }
 /* Article-local application blocks may supply their own independent theme. */
 /* Replace legacy floats for image/media while respecting editorial media classes */
 body .entry-content iframe { max-width: 100%; }
 body .tags a { color: var(--fril-blue); }
-body .related-articles { padding: 24px 0; border-top: 1px solid var(--fril-line); }
-body .related-articles h2, body .comments h2 { color: var(--fril-heading); }
-body .related-articles ul li a { color: var(--fril-text); }
-body .related-articles ul li figure { overflow: hidden; border-radius: 11px; }
-body .related-articles ul li figure img { height: 100%; object-fit: cover; }
-/* Compatibility island for the Blender 5.2 Tistory guide created earlier.
-   Its article CSS follows the OS preference; these rules follow the site toggle
-   instead, without renaming any Tistory/editor classes or IDs. */
+/* Blender guide compatibility: use the same system-driven Frilume tokens. */
 html #blender52-tistory {
   --bl52-ink: var(--fril-text); --bl52-muted: var(--fril-muted);
   --bl52-border: var(--fril-line); --bl52-tint: var(--fril-yellow-soft);
@@ -4955,8 +4898,6 @@ body #article-view #blender52-tistory .bl52-hero p,
 body #article-view #blender52-tistory .bl52-reading-tip,
 body #article-view #blender52-tistory .bl52-notes p { color: var(--bl52-muted); }
 body #article-view #blender52-tistory .bl52-chapter code { color: var(--fril-blue-strong); }
-html:has(#fril-mode-dark:checked) body #article-view #blender52-tistory .bl52-table th { color: var(--bl52-ink) !important; }
-@media (prefers-color-scheme: dark) { html:has(#fril-mode-auto:checked) body #article-view #blender52-tistory .bl52-table th { color: var(--bl52-ink) !important; } }
 /* The guide's strongly scoped table styles remain in control of dimensions. */
 /* Sidebar modules. Keep all s_sidebar blocks, DOM classes, category tree and tab IDs. */
 body #aside .sidebar-2, body #aside .sidebar-3 { padding-top: 0; margin-top: 0; border-top: 0; }
@@ -5024,7 +4965,6 @@ body .fril-hero .fril-hero-body { animation: fril-enter .6s cubic-bezier(.2,.7,.
 @media screen and (max-width: 680px) {
   body #header .inner { padding: 0 16px; grid-template-columns: minmax(0, 1fr) auto; }
   body #header h1 { padding: 17px 0 13px; font-size: 1.2rem; }
-  body #header h1 a:not(:has(img))::before { flex-basis: 34px; height: 34px; font-size: 20px; border-radius: 9px; }
   body #header .util { gap: 7px; }
   body #header .util .search, body #header .util .search.on { width: 36px; height: 36px; }
   body #header .util .search input { height: 34px; }
@@ -5071,11 +5011,6 @@ body .fril-hero .fril-hero-body { animation: fril-enter .6s cubic-bezier(.2,.7,.
 
 /* ===== v1.1: stable pagination + pure CSS mobile drawer / theme choice ===== */
 .fril-sr { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; border: 0 !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; }
-body .fril-mode-picker { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; gap: 2px; margin: 0; padding: 4px; border: 1px solid var(--fril-line); border-radius: 12px; background: var(--fril-paper-2); }
-body .fril-mode-picker label { display: inline-flex; justify-content: center; align-items: center; cursor: pointer; border-radius: 8px; min-width: 41px; height: 30px; padding: 0 8px; font-size: .75rem; font-weight: 720; white-space: nowrap; color: var(--fril-muted); transition: background .2s,color .2s,transform .2s; }
-body .fril-mode-picker label:hover { color: var(--fril-blue); transform: translateY(-1px); }
-body .fril-mode-picker input:checked + label { color: #071d44; background: var(--fril-yellow); box-shadow: 0 2px 7px rgba(0,0,0,.08); }
-body .fril-mode-picker input:focus-visible + label { outline: 3px solid var(--fril-blue); outline-offset: 3px; }
 body .fril-mobile-trigger, body .fril-mobile-close, body .fril-mobile-scrim { display: none; }
 /* Preserve the original .menu button markup/script hook without relying on it for mobile navigation. */
 body #header .util .menu { display: none !important; }
@@ -5133,8 +5068,6 @@ body #content > .inner { min-width: 0; }
 }
 @media (max-width: 680px) {
   body #header .util { gap: 5px; }
-  body .fril-mode-picker { padding: 2px; gap: 0; border-radius: 10px; }
-  body .fril-mode-picker label { min-width: 0; height: 29px; padding: 0 6px; font-size: .65rem; }
   body #header .util .fril-mobile-trigger { flex-basis: 36px; width: 36px; height: 36px; }
   body #header .util .fril-mobile-trigger::before, body #header .util .fril-mobile-trigger::after, body #header .util .fril-mobile-trigger span { left: 9px; }
   body #content > .pagination { gap: 4px; padding: 12px 0 18px; }
@@ -5308,12 +5241,19 @@ body #header .util { z-index: 25; }
 body #header .util .search.fril-search { z-index: 26; }
 body #header .util .search.fril-search:focus-within { z-index: 150; }
 
-/* ====================================================================
-   FrilLab v1.3 | Related articles thumbnails
-   Fix: legacy figure had height:0 with padding-bottom ratio, while newer
-   img used height:100%. Use a real aspect-ratio box and positioned image.
-   Tistory skin placeholders and s_article_related_rep_thumbnail are intact.
-   ==================================================================== */
+/* Related Articles ------------------------------------------------------
+   Tistory omits the image inside figure when a post has no thumbnail.
+   aspect-ratio replaces the old height:0/padding-bottom ratio; the figure's
+   gradient remains visible when no img is rendered. */
+body .related-articles {
+  padding: 24px 0;
+  margin-bottom: 34px;
+  border-top: 1px solid var(--fril-line);
+}
+body .related-articles h2,
+body .comments h2 {
+  color: var(--fril-heading);
+}
 body .related-articles ul {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -5329,6 +5269,11 @@ body .related-articles ul li {
   width: auto;
   margin: 0;
   padding: 0;
+}
+body .related-articles ul li a {
+  display: block;
+  color: var(--fril-text);
+  text-decoration: none;
 }
 body .related-articles ul li figure {
   position: relative;
@@ -5357,16 +5302,15 @@ body .related-articles ul li figure img {
   object-position: center;
   transition: transform .3s ease;
 }
-/* Shown behind real thumbnails; also gives empty thumbnails a designed look. */
 body .related-articles ul li figure::before {
   content: '';
   position: absolute;
   z-index: 0;
-  top: -38%;
-  right: -14%;
-  width: 72%;
+  top: -34%;
+  right: -10%;
+  width: 68%;
   aspect-ratio: 1;
-  border: clamp(12px, 2.2vw, 27px) solid rgba(255, 210, 72, .55);
+  border: clamp(12px, 2.2vw, 27px) solid rgba(255, 204, 73, .56);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -5374,9 +5318,9 @@ body .related-articles ul li figure:not(:has(img))::after {
   content: 'FRILLAB / ARTICLE';
   position: absolute;
   z-index: 1;
+  right: 12px;
   bottom: 14px;
   left: 14px;
-  right: 12px;
   color: #fff;
   font-size: clamp(.65rem, 1vw, .82rem);
   font-weight: 800;
@@ -5400,11 +5344,17 @@ body .related-articles ul li .title {
   -webkit-line-clamp: 2;
   overflow: hidden;
   max-width: 100%;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  line-height: 1.55;
   max-height: 3.1em;
+  overflow-wrap: anywhere;
+  white-space: normal;
   color: var(--fril-heading);
+  line-height: 1.55;
+  transition: color .2s ease, transform .2s ease;
+}
+body .related-articles ul li a:hover .title,
+body .related-articles ul li a:focus-visible .title {
+  color: var(--fril-blue);
+  transform: translateY(-2px);
 }
 @media (max-width: 1100px) {
   body .related-articles ul {
@@ -5414,8 +5364,9 @@ body .related-articles ul li .title {
 }
 @media (max-width: 540px) {
   body .related-articles ul { gap: 12px; }
-  body .related-articles ul li figure { border-radius: 11px; margin-bottom: 8px; }
+  body .related-articles ul li figure { margin-bottom: 8px; border-radius: 11px; }
   body .related-articles ul li figure:not(:has(img))::after {
+    right: 9px;
     bottom: 10px;
     left: 10px;
     font-size: .6rem;
@@ -5423,307 +5374,247 @@ body .related-articles ul li .title {
 }
 @media (prefers-reduced-motion: reduce) {
   body .related-articles ul li figure,
-  body .related-articles ul li figure img { transition: none; }
+  body .related-articles ul li figure img,
+  body .related-articles ul li .title { transition: none; }
 }
 
-/* ======================================
-   FrilLab - Tistory 댓글 입력창 테마
-   ====================================== */
-
-/* 댓글 입력 영역 */
+/* Comments and Namecard -------------------------------------------------
+   Tistory creates these React nodes after the skin has loaded. Keep the native
+   DOM and controls intact; style only the provided classes. */
+body .tt-comments-wrap,
+body .tt-comment-cont,
+body .tt-comment-cont .tt-wrap-cmt {
+  color: var(--fril-text);
+}
+body .tt-comments-wrap .tt-box-textarea,
 body .tt-comments-wrap .tt-inner-g {
-  background-color: var(--fril-paper-2) !important;
-  color: var(--fril-text) !important;
   border: 1px solid var(--fril-line);
   border-radius: 12px;
+  background: var(--fril-paper-2);
+  color: var(--fril-text);
 }
-
-/* 실제 댓글 입력 글씨 */
-body .tt-comments-wrap .tt-inner-g .tt-cmt {
-  color: var(--fril-text) !important;
-  -webkit-text-fill-color: var(--fril-text) !important;
-  caret-color: var(--fril-blue);
-}
-
-/* 사용자 이름 */
-body .tt-comments-wrap .tt-inner-g .tt_txt_user {
-  color: var(--fril-heading) !important;
-}
-
-/* 댓글 입력 안내 문구 */
-body .tt-comments-wrap .tt-inner-g .tt-cmt:empty::before {
-  color: var(--fril-muted) !important;
-  -webkit-text-fill-color: var(--fril-muted) !important;
-  opacity: 1;
-}
-
-/* 클릭 시 포커스 효과 */
+body .tt-comments-wrap .tt-box-textarea:focus-within,
 body .tt-comments-wrap .tt-box-textarea:focus-within .tt-inner-g {
   border-color: var(--fril-blue);
   box-shadow: 0 0 0 3px var(--fril-blue-subtle);
 }
+body .tt-comments-wrap .tt-inner-g .tt-cmt,
+body .tt-comments-wrap textarea,
+body .tt-comments-wrap input {
+  max-width: 100%;
+  color: var(--fril-text);
+  caret-color: var(--fril-blue);
+  background: transparent;
+}
+body .tt-comments-wrap .tt-inner-g .tt-cmt:empty::before,
+body .tt-comments-wrap textarea::placeholder,
+body .tt-comments-wrap input::placeholder {
+  color: var(--fril-muted);
+  -webkit-text-fill-color: var(--fril-muted);
+  opacity: 1;
+}
+body .tt-comment-cont .tt-wrap-cmt .tt-link-user,
+body .tt-comment-cont .tt-wrap-cmt .tt-link-user:visited,
+body .tt-comments-wrap .tt-inner-g .tt_txt_user {
+  color: var(--fril-heading);
+  font-weight: 700;
+}
 body .tt-comment-cont .tt-wrap-cmt .tt_desc {
   color: var(--fril-text);
 }
-
+body .tt-comment-cont .tt-wrap-cmt .tt_date {
+  color: var(--fril-muted);
+}
+body .tt-comment-cont .tt-link-comment,
+body .tt-comment-cont .tt-link-comment .tt_txt_g,
 body .tt-comment-cont .tt-txt-mention {
   color: var(--fril-blue);
 }
-
-
-/* =========================================
-   FrilLab - Dark Mode Content Fix
-   ========================================= */
-
-@media (prefers-color-scheme: dark) {
-
-  /* 1. Tistory 편집기에서 검은색으로 고정한 제목 */
-  body #article-view h1[style*="color: #000000"],
-  body #article-view h2[style*="color: #000000"],
-  body #article-view h3[style*="color: #000000"],
-  body #article-view h4[style*="color: #000000"],
-  body #article-view h5[style*="color: #000000"],
-  body #article-view h6[style*="color: #000000"] {
-    color: #e8edf8 !important;
-  }
-
-  /* 2. Open Graph 카드 배경 */
-  body #article-view figure[data-ke-type="opengraph"] .og-text {
-    background-color: #1c2d46 !important;
-  }
-
-  /* 3. Open Graph 카드 제목 */
-  body #article-view figure[data-ke-type="opengraph"] .og-title {
-    color: #f3f7ff !important;
-  }
-
-  /* 4. Open Graph 카드 설명과 주소 */
-  body #article-view figure[data-ke-type="opengraph"] .og-desc,
-  body #article-view figure[data-ke-type="opengraph"] .og-host {
-    color: #b8c7dc !important;
-  }
-
+body [data-tistory-react-app="Namecard"] .tt_box_namecard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 32px));
+  min-height: 0;
+  padding: 16px;
+  border: 1px solid var(--fril-line);
+  border-radius: 14px;
+  background: var(--fril-paper-2);
+  color: var(--fril-text);
+  box-shadow: var(--fril-shadow);
+  box-sizing: border-box;
+}
+body [data-tistory-react-app="Namecard"] .tt_thumb_g {
+  display: block;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+body [data-tistory-react-app="Namecard"] .tt_thumb_g img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body [data-tistory-react-app="Namecard"] .tt_tit_cont {
+  margin: 0 0 4px;
+  color: var(--fril-heading);
+  font-weight: 750;
+  line-height: 1.4;
+}
+body [data-tistory-react-app="Namecard"] .tt_desc {
+  margin: 0;
+  color: var(--fril-muted);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
-
+/* Code Blocks ------------------------------------------------------------
+   Margins belong to the frame. pre owns the only code padding and scrollport;
+   code.hljs remains transparent so highlighting colors are left untouched. */
 .fril-code-frame {
   position: relative;
   min-width: 0;
   max-width: 100%;
-  margin: 1.5rem 0;
+  margin: 1.35rem 0;
 }
-
-.entry-content .fril-code-frame > pre {
+body .entry-content .fril-code-frame > pre,
+body #article-view pre {
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  min-height: 0;
   margin: 0;
-  padding-top: 48px;
+  padding: 14px 88px 14px 16px;
   overflow-x: auto;
+  overflow-y: hidden;
+  overflow-wrap: normal;
+  white-space: pre;
+  border: 1px solid var(--fril-line);
+  border-radius: 13px;
+  background: var(--fril-paper-2);
+  color: var(--fril-text);
+  font-family: SFMono-Regular, Menlo, Consolas, Monaco, monospace;
+  font-size: .88rem;
+  line-height: 1.65;
+  scrollbar-width: thin;
 }
-
+body .entry-content .fril-code-frame > pre > code,
+body #article-view pre > code,
+body #article-view pre > code.hljs {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  white-space: inherit;
+}
 .fril-code-copy {
   position: absolute;
-  top: 10px;
-  right: 12px;
-  z-index: 5;
-
-  padding: 7px 13px;
-  border: 1px solid #477bdf;
+  top: 7px;
+  right: 9px;
+  z-index: 1;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1px solid var(--fril-blue);
   border-radius: 8px;
-
-  background: #194bb3;
+  background: var(--fril-blue);
   color: #fff;
-  font-size: 12px;
-  font-weight: 600;
+  font: 700 .75rem/1.2 var(--fril-font);
   cursor: pointer;
-
-  transition: opacity .2s ease,
-              transform .2s ease,
-              background .2s ease;
+  transition: background-color .2s ease, color .2s ease, opacity .2s ease, transform .2s ease;
 }
-
 .fril-code-copy:hover,
 .fril-code-copy.copied {
-  background: #facc15;
-  border-color: #facc15;
-  color: #17233d;
+  border-color: var(--fril-yellow);
+  background: var(--fril-yellow);
+  color: #172842;
 }
-
+.fril-code-copy.failed {
+  border-color: #b42318;
+  background: #b42318;
+  color: #fff;
+}
+.fril-code-copy:disabled { cursor: wait; }
 @media (hover: hover) and (pointer: fine) {
-  .fril-code-copy {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-
+  .fril-code-copy { opacity: 0; transform: translateY(-3px); }
   .fril-code-frame:hover .fril-code-copy,
-  .fril-code-frame:focus-within .fril-code-copy {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .fril-code-frame:focus-within .fril-code-copy { opacity: 1; transform: translateY(0); }
+}
+@media (hover: none), (pointer: coarse) {
+  .fril-code-copy { opacity: 1; transform: none; }
+}
+@media (max-width: 680px) {
+  body .entry-content .fril-code-frame > pre,
+  body #article-view pre { padding: 12px 78px 12px 12px; font-size: .8rem; }
+  .fril-code-copy { top: 6px; right: 7px; }
 }
 
+/* Dark content normalization --------------------------------------------
+   Correct common editor-inserted black text/white block fills only. Links,
+   code, tables, quotes, OG cards and media keep their own component styling. */
 @media (prefers-color-scheme: dark) {
-  .fril-code-copy {
-    border-color: #6c9bff;
-    background: #214eaa;
-    color: #fff;
-  }
-}
-
-@media print {
-  .fril-code-copy {
-    display: none;
-  }
-}
-
-/* ==========================================
-   FrilLab - Tistory Namecard
-   ========================================== */
-
-body [data-tistory-react-app="Namecard"] .tt_box_namecard {
-  background: var(--fril-paper-2) !important;
-  border: 1px solid var(--fril-line) !important;
-  border-radius: 16px !important;
-
-  min-height: 0 !important;
-  padding: 24px !important;
-
-  box-shadow: none !important;
-  box-sizing: border-box;
-}
-
-/* 블로그 이름 */
-body [data-tistory-react-app="Namecard"] .tt_tit_cont {
-  color: var(--fril-heading) !important;
-  font-weight: 700;
-}
-
-/* 블로그 소개 */
-body [data-tistory-react-app="Namecard"] .tt_desc {
-  color: var(--fril-muted) !important;
-}
-
-/* 프로필 이미지 */
-body [data-tistory-react-app="Namecard"] .tt_thumb_g {
-  border-radius: 12px;
-}
-/* ==========================================
-   FrilLab - Tistory Comment Text
-   ========================================== */
-
-/* 댓글 작성자 이름 */
-body .tt-comment-cont .tt-wrap-cmt .tt-link-user,
-body .tt-comment-cont .tt-wrap-cmt .tt-link-user:visited {
-  color: var(--fril-heading) !important;
-  font-weight: 700;
-}
-
-/* 댓글 본문 */
-body .tt-comment-cont .tt-wrap-cmt .tt_desc {
-  color: var(--fril-text) !important;
-}
-
-/* 날짜와 시간 */
-body .tt-comment-cont .tt-wrap-cmt .tt_date {
-  color: var(--fril-muted) !important;
-}
-
-/* 답글 버튼 */
-body .tt-comment-cont .tt-link-comment,
-body .tt-comment-cont .tt-link-comment .tt_txt_g {
-  color: var(--fril-blue) !important;
-}
-
-
-/* ============================================
-   FrilLab - Article Dark Mode Normalization
-   기존 게시글의 색상 충돌 방지
-   ============================================ */
-
-@media (prefers-color-scheme: dark) {
-
-  /* 1. 일반 본문과 목록 색상 통일 */
-  body #article-view :is(
-    h1, h2, h3, h4, h5, h6,
-    p, ul, ol, li
-  ) {
-    color: var(--fril-text) !important;
-    background-color: transparent !important;
-  }
-
-  /* 2. 제목 색상 */
-  body #article-view :is(
-    h1, h2, h3, h4, h5, h6
-  ) {
+  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: #000" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color:#000" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: black" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: rgb(0, 0, 0)" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color:rgb(0,0,0)" i] {
     color: var(--fril-heading) !important;
+    -webkit-text-fill-color: var(--fril-heading);
   }
-
-  /* 3. 편집기에서 직접 지정한 글자색과 배경색 무시
-     코드 강조, 링크, 카드 내부는 제외 */
-  body #article-view :is(
-    span, font, strong, b, em, i
-  )[style]:not(pre *):not(code *):not(a *):not(figure *) {
-    color: inherit !important;
+  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: #000" i],
+  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color:#000" i],
+  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: black" i],
+  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: rgb(0, 0, 0)" i],
+  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color:rgb(0,0,0)" i] {
+    color: var(--fril-text) !important;
+    -webkit-text-fill-color: var(--fril-text);
+  }
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background: #fff" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background:#fff" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color: #fff" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color:#fff" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background: white" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color: white" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background: rgb(255, 255, 255)" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color: rgb(255, 255, 255)" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background:rgb(255,255,255)" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color:rgb(255,255,255)" i] {
     background-color: transparent !important;
-    -webkit-text-fill-color: currentColor !important;
   }
-
-  /* 4. 인라인 배경이 지정된 일반 텍스트 컨테이너 */
-  body #article-view
-  :is(div, span)[style*="background"]:not(pre *):not(code *):not(figure *) {
-    background-color: transparent !important;
+  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color: #000" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color:#000" i],
+  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color: black" i],
+  body #article-view :is(p, li) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color: #000" i],
+  body #article-view :is(p, li) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color:#000" i],
+  body #article-view :is(p, li) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color: black" i] {
+    color: var(--fril-text) !important;
+    -webkit-text-fill-color: var(--fril-text);
   }
-
-  /* 5. 코드 블록 배경 통일 */
-  body #article-view .fril-code-frame,
-  body #article-view pre,
-  body #article-view pre code,
-  body #article-view pre code.hljs {
-    background: #101d33 !important;
+  body #article-view figure[data-ke-type="opengraph"] .og-text { background-color: var(--fril-paper-2); }
+  body #article-view figure[data-ke-type="opengraph"] .og-title { color: var(--fril-heading); }
+  body #article-view figure[data-ke-type="opengraph"] :is(.og-desc, .og-host) { color: var(--fril-muted); }
+  body #article-view div[data-ke-type="moreLess"],
+  body #article-view figure.fileblock {
+    border-color: var(--fril-line);
+    background-color: var(--fril-paper-2);
+    color: var(--fril-text);
   }
-
-  /* 6. 코드의 기본 글자색
-     문법 강조 span 색상은 유지 */
-  body #article-view pre code {
-    color: #e5edf8 !important;
-  }
-
-  /* 7. 코드 블록의 내부 테두리 제거 */
-  body #article-view pre code.hljs {
-    border: 0 !important;
-  }
-
 }
-
-
-/* =========================================
-   FrilLab - Code Block Spacing Fix
-   ========================================= */
-
-/* 바깥 코드 박스에만 여백 적용 */
-body #article-view pre,
-body .entry-content pre {
-  box-sizing: border-box;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 18px 0;
-  padding: 14px 18px !important;
+@media (prefers-reduced-motion: reduce) {
+  .fril-code-copy { transition: none; }
+  .fril-code-frame:hover .fril-code-copy,
+  .fril-code-frame:focus-within .fril-code-copy { transform: none; }
 }
-
-/* 모든 언어의 내부 코드 여백 제거 */
-body #article-view pre > code,
-body #article-view pre > code.hljs,
-body .entry-content pre > code.hljs {
-  display: block;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  line-height: 1.65;
-}
-
-/* 복사 버튼이 있는 코드 박스만 상단 공간 확보 */
-body .entry-content .fril-code-frame > pre {
-  padding-top: 48px !important;
-}
-

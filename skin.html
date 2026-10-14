@@ -145,16 +145,8 @@
 
             </div>
 
-            <!-- CSS-only color scheme: auto follows the OS; manual choices reset on page reload. -->
-          <fieldset class="fril-mode-picker" aria-label="화면 색상">
-            <legend class="fril-sr">화면 색상</legend>
-            <input class="fril-sr" type="radio" name="fril-site-mode" id="fril-mode-auto" checked>
-            <label for="fril-mode-auto" title="시스템 설정에 맞춤">자동</label>
-            <input class="fril-sr" type="radio" name="fril-site-mode" id="fril-mode-light">
-            <label for="fril-mode-light" title="밝은 화면">라이트</label>
-            <input class="fril-sr" type="radio" name="fril-site-mode" id="fril-mode-dark">
-            <label for="fril-mode-dark" title="어두운 화면">다크</label>
-          </fieldset>
+            <!-- The color scheme follows the visitor’s system preference. -->
+
           <input class="fril-sr" type="checkbox" id="fril-mobile-switch" aria-label="사이드바 펼치기">
           <label for="fril-mobile-switch" class="fril-mobile-trigger" aria-label="메뉴 열기"><span></span></label>
           <div class="profile">
@@ -1587,41 +1579,126 @@
 
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.entry-content pre').forEach(pre => {
-    const code = pre.querySelector('code');
-    if (!code || pre.closest('.fril-code-frame')) return;
+(() => {
+  const initializedKey = 'frilCodeCopyInitialized';
+  if (document.documentElement.dataset[initializedKey] === 'true') return;
+  document.documentElement.dataset[initializedKey] = 'true';
 
-    const frame = document.createElement('div');
-    frame.className = 'fril-code-frame';
+  const resetTimers = new WeakMap();
+  const copyLabel = '복사';
+  const ignoredCodeNodes = [
+    '.hljs-ln-numbers',
+    '.line-numbers-rows',
+    '.line-number',
+    '.line-numbers',
+    '.gutter',
+    '.copy-button',
+    '.fril-code-copy',
+    '[data-line-number]'
+  ].join(',');
 
-    pre.parentNode.insertBefore(frame, pre);
-    frame.appendChild(pre);
+  function enhanceCodeBlocks() {
+    document.querySelectorAll('.entry-content pre').forEach(pre => {
+      const code = pre.querySelector(':scope > code');
+      if (!code || pre.closest('.fril-code-frame')) return;
 
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'fril-code-copy';
-    button.textContent = '복사';
-    button.setAttribute('aria-label', '코드 복사');
+      const frame = document.createElement('div');
+      frame.className = 'fril-code-frame';
+      pre.parentNode.insertBefore(frame, pre);
+      frame.appendChild(pre);
 
-    frame.appendChild(button);
-
-    button.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(code.textContent);
-        button.textContent = '복사됨';
-        button.classList.add('copied');
-
-        setTimeout(() => {
-          button.textContent = '복사';
-          button.classList.remove('copied');
-        }, 1800);
-      } catch (error) {
-        button.textContent = '복사 실패';
-      }
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'fril-code-copy';
+      button.textContent = copyLabel;
+      button.setAttribute('aria-label', '코드 복사');
+      button.title = '코드 복사';
+      button.setAttribute('aria-live', 'polite');
+      frame.appendChild(button);
     });
-  });
-});
+  }
+
+  function getCodeText(code) {
+    const copy = code.cloneNode(true);
+    copy.querySelectorAll(ignoredCodeNodes).forEach(node => node.remove());
+    copy.querySelectorAll('br').forEach(node => node.replaceWith(document.createTextNode('\n')));
+    return copy.textContent || '';
+  }
+
+  function fallbackCopy(text) {
+    if (typeof document.execCommand !== 'function') return false;
+
+    const activeElement = document.activeElement;
+    const field = document.createElement('textarea');
+    field.value = text;
+    field.setAttribute('readonly', '');
+    field.setAttribute('aria-hidden', 'true');
+    field.style.position = 'fixed';
+    field.style.inset = '0 auto auto -9999px';
+    field.style.opacity = '0';
+    document.body.appendChild(field);
+    field.select();
+    field.setSelectionRange(0, field.value.length);
+
+    let copied = false;
+    try {
+      copied = document.execCommand('copy');
+    } catch (error) {
+      copied = false;
+    }
+    field.remove();
+    if (activeElement instanceof HTMLElement) activeElement.focus({ preventScroll: true });
+    return copied;
+  }
+
+  async function copyCode(button) {
+    const frame = button.closest('.fril-code-frame');
+    const code = frame && frame.querySelector('pre > code');
+    if (!code || button.disabled) return;
+
+    const text = getCodeText(code);
+    button.disabled = true;
+    button.classList.remove('copied', 'failed');
+
+    let copied = false;
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      try {
+        await navigator.clipboard.writeText(text);
+        copied = true;
+      } catch (error) {
+        copied = fallbackCopy(text);
+      }
+    } else {
+      copied = fallbackCopy(text);
+    }
+
+    window.clearTimeout(resetTimers.get(button));
+    button.classList.toggle('copied', copied);
+    button.classList.toggle('failed', !copied);
+    button.textContent = copied ? '복사 완료' : '복사 실패';
+    button.setAttribute('aria-label', copied ? '코드 복사 완료' : '코드 복사 실패');
+
+    resetTimers.set(button, window.setTimeout(() => {
+      button.disabled = false;
+      button.classList.remove('copied', 'failed');
+      button.textContent = copyLabel;
+      button.setAttribute('aria-label', '코드 복사');
+    }, 1800));
+  }
+
+  function onDocumentClick(event) {
+    const target = event.target instanceof Element ? event.target : null;
+    const button = target && target.closest('.fril-code-copy');
+    if (button) copyCode(button);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', enhanceCodeBlocks, { once: true });
+  } else {
+    enhanceCodeBlocks();
+  }
+  document.addEventListener('click', onDocumentClick);
+})();
 </script>
 
 
