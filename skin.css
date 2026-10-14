@@ -4763,7 +4763,7 @@ body a, body a:link { color: var(--fril-blue); }
 body a:hover { color: var(--fril-blue-strong); }
 body button { font-family: inherit; }
 body #wrap { min-height: 100vh; overflow: clip; background: var(--fril-bg); }
-body #container { padding: 0 28px 76px; background: transparent; }
+body #container { padding: 24px 28px 76px; background: transparent; }
 body #container .content-wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 294px; align-items: start; column-gap: 42px; width: min(100%, 1392px); max-width: 1392px; margin: 0 auto; padding: 34px; border: 1px solid var(--fril-line); border-radius: 26px; background: var(--fril-paper); box-shadow: var(--fril-shadow); }
 body #container .content-wrap::before, body #container .content-wrap::after { display: none; }
 body #content, body .layout-aside-left #content { grid-column: 1; grid-row: 1; float: none; width: auto; min-width: 0; max-width: 100%; margin: 0; padding: 16px 0 46px; }
@@ -4812,19 +4812,6 @@ body #header .util .search label.screen_out { position: absolute; width: 1px; he
 body #header .util .search button { display: block; overflow: hidden; text-indent: -9999px; font-size: 0; }
 body #header .util .search input { opacity: 0; pointer-events: none; }
 body #header .util .search.on input { opacity: 1; pointer-events: auto; }
-/* HOMEPAGE HERO, only shown when Tistory's body ID signals index */
-.fril-hero { display: none; position: relative; isolation: isolate; overflow: hidden; width: min(100%, 1392px); margin: 34px auto 22px; padding: clamp(35px, 5vw, 78px) clamp(30px, 6vw, 90px); min-height: 306px; border: 1px solid #254981; border-radius: 26px; background: radial-gradient(ellipse at 87% 8%, #2655ad 0, transparent 47%), linear-gradient(120deg, #091c42 6%, #112c65 67%, #174b9f 100%); box-shadow: 0 22px 55px rgba(17, 49, 113, .17); color: white; }
-#tt-body-index .fril-hero { display: flex; align-items: center; }
-.fril-hero::after { content: ''; position: absolute; z-index: -1; width: 410px; height: 410px; border: 1px solid rgba(255, 255, 255, .15); border-radius: 50%; right: -82px; top: -70px; box-shadow: 0 0 0 52px rgba(255,255,255,.03), 0 0 0 104px rgba(255,255,255,.022); }
-.fril-hero::before { content: ''; position: absolute; z-index: -1; width: 138px; height: 138px; right: 15%; top: 23%; border-radius: 38px; transform: rotate(17deg); background: linear-gradient(140deg, #ffe788, #ffca39); box-shadow: 22px 25px 0 rgba(11, 30, 75, .6); animation: fril-float 7s ease-in-out infinite; }
-.fril-hero .fril-hero-body { position: relative; z-index: 1; max-width: 800px; }
-.fril-eyebrow { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; color: #fbd66c; letter-spacing: .18em; font-size: .74rem; font-weight: 800; text-transform: uppercase; }
-.fril-eyebrow::before { content: ''; width: 24px; height: 2px; border-radius: 4px; background: #fbd66c; }
-.fril-hero h2 { margin: 0 0 20px; color: #fff; font-size: clamp(2.45rem, 4.5vw, 4.5rem); line-height: 1.13; font-weight: 850; letter-spacing: -.055em; }
-.fril-hero h2 strong { color: #ffd252; font-weight: inherit; }
-.fril-hero p { margin: 0; color: #c5d6f7; font-size: 1.02rem; line-height: 1.8; }
-.fril-hero .fril-hero-cta { display: inline-flex; align-items: center; gap: 9px; padding: 11px 18px; margin-top: 24px; border-radius: 11px; color: #061d46; background: #ffcf49; font-size: .89rem; font-weight: 800; text-decoration: none; box-shadow: 0 9px 25px rgba(255, 203, 47, .2); transition: transform .24s, box-shadow .24s; }
-.fril-hero .fril-hero-cta:hover { transform: translateY(-3px); color: #061d46; box-shadow: 0 12px 30px rgba(255, 203, 47, .3); }
 /* CONTENT CARDS + POST TITLE */
 body #content .post-header { padding: 6px 0 26px; }
 body #content .post-header h1 { margin: 0; color: var(--fril-heading); font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 800; letter-spacing: -.035em; }
@@ -4941,13 +4928,9 @@ body #footer .inner { max-width: 1392px; }
 body #footer p, body #footer .order-menu a { color: var(--fril-muted); }
 body #footer .order-menu a:hover { color: var(--fril-blue); }
 body #footer .page-top { background: var(--fril-blue-subtle); border: 1px solid var(--fril-line); color: var(--fril-blue); border-radius: 11px; }
-/* Reading progress + overlay for mobile drawer */
-body .fril-hero .fril-hero-body { animation: fril-enter .6s cubic-bezier(.2,.7,.25,1) both; }
-@keyframes fril-enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes fril-float { 0%, 100% { transform: translateY(0) rotate(17deg); } 50% { transform: translateY(-12px) rotate(21deg); } }
 /* medium screens: remove side column before it can crush the article */
 @media screen and (max-width: 1040px) {
-  body #container { padding: 0 18px 54px; }
+  body #container { padding: 20px 18px 54px; }
   body #container .content-wrap, body.layout-aside-left #container .content-wrap { grid-template-columns: minmax(0, 1fr); column-gap: 0; padding: 30px; }
   body #content, body.layout-aside-left #content { grid-column: 1; width: 100%; padding: 8px 0 40px; }
   body #aside, body.layout-aside-left #aside { position: fixed; display: block; z-index: 410; top: 0; right: 0; bottom: 0; left: auto; width: min(86vw, 336px); max-width: 336px; height: 100dvh; overflow-y: auto; overscroll-behavior: contain; padding: 64px 18px 32px; margin: 0; border: 0; border-left: 1px solid var(--fril-line); background: var(--fril-paper); box-shadow: -16px 0 55px rgba(0,0,0,.18); transform: translateX(110%); visibility: hidden; transition: transform .25s ease, visibility .25s ease; }
@@ -4960,7 +4943,6 @@ body .fril-hero .fril-hero-body { animation: fril-enter .6s cubic-bezier(.2,.7,.
   body #header .util .menu::before { margin-top: -5px; }
   body #header .util .menu::after { margin-top: 5px; }
   body #header .util .search.on { width: min(38vw, 240px); }
-  body .fril-hero { margin-top: 23px; }
 }
 @media screen and (max-width: 680px) {
   body #header .inner { padding: 0 16px; grid-template-columns: minmax(0, 1fr) auto; }
@@ -4975,14 +4957,9 @@ body .fril-hero .fril-hero-body { animation: fril-enter .6s cubic-bezier(.2,.7,.
   body #header #gnb { height: auto; min-height: 48px; }
   body #header #gnb ul { gap: 20px; min-height: 48px; }
   body #header #gnb ul li a { padding: 13px 0; font-size: .82rem; }
-  body #container { padding: 0 11px 30px; }
+  body #container { padding: 16px 11px 30px; }
   body #container .content-wrap, body.layout-aside-left #container .content-wrap { padding: 23px 18px; border-radius: 18px; }
   body #content { padding: 0 0 30px; }
-  body .fril-hero { min-height: 256px; padding: 30px 26px; margin: 15px auto; border-radius: 18px; }
-  .fril-hero::before { width: 70px; height: 70px; right: -15px; top: 20px; opacity: .55; }
-  .fril-hero::after { right: -280px; }
-  .fril-hero h2 { font-size: clamp(2.05rem, 10vw, 3.1rem); }
-  .fril-hero p { font-size: .91rem; }
   body .post-cover { min-height: 210px; }
   body .post-cover .inner { padding: 30px 23px; }
   body .post-cover h1 { font-size: 1.65rem; }
@@ -5002,18 +4979,15 @@ body .fril-hero .fril-hero-body { animation: fril-enter .6s cubic-bezier(.2,.7,.
   body *, body *::before, body *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
 @media print {
-  body #header, body #aside, body #footer, .fril-hero, .fril-progress, .fril-scrim { display: none !important; }
+  body #header, body #aside, body #footer, .fril-progress, .fril-scrim { display: none !important; }
   body #container, body #container .content-wrap, body #content { display: block !important; max-width: none !important; width: 100% !important; padding: 0 !important; margin: 0 !important; border: 0 !important; box-shadow: none !important; }
   body { background: white !important; color: black !important; }
 }
 
 
 
-/* ===== v1.1: stable pagination + pure CSS mobile drawer / theme choice ===== */
-.fril-sr { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; border: 0 !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; }
-body .fril-mobile-trigger, body .fril-mobile-close, body .fril-mobile-scrim { display: none; }
-/* Preserve the original .menu button markup/script hook without relying on it for mobile navigation. */
-body #header .util .menu { display: none !important; }
+/* ===== v1.1: stable pagination + Tistory mobile drawer ===== */
+/* Tistory script.js controls .menu, body.mobile-menu, and the injected aside profile. */
 /* Original theme may set pagination > margin:0 12px, float, and sprite arrows.
    Only the skin pager is changed; sliders and injected comment pagers are not. */
 body #content > .pagination {
@@ -5055,21 +5029,14 @@ body #content > .inner { min-width: 0; }
   body #aside { padding-left: 20px; }
 }
 @media (max-width: 1040px) {
-  body #header .util .fril-mobile-trigger { position: relative; display: inline-flex; flex: 0 0 40px; width: 40px; height: 40px; border: 1px solid var(--fril-line); border-radius: 12px; align-items: center; justify-content: center; background: var(--fril-paper-2); cursor: pointer; }
-  body #header .util .fril-mobile-trigger::before, body #header .util .fril-mobile-trigger::after, body #header .util .fril-mobile-trigger span { content:''; position:absolute; left: 11px; width: 17px; height: 2px; border-radius: 4px; background: var(--fril-text); }
-  body #header .util .fril-mobile-trigger::before { top: 13px; }
-  body #header .util .fril-mobile-trigger span { top: 19px; }
-  body #header .util .fril-mobile-trigger::after { top: 25px; }
-  body .fril-mobile-scrim { position: fixed; z-index: 390; inset: 0; display: block; opacity: 0; background: rgba(5,14,30,.60); visibility: hidden; pointer-events: none; transition: opacity .23s ease,visibility .23s ease; }
-  body:has(#fril-mobile-switch:checked) .fril-mobile-scrim { opacity: 1; visibility: visible; pointer-events: auto; }
-  body #aside .fril-mobile-close { position: absolute; z-index: 3; top: 13px; right: 15px; display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 12px; border: 1px solid var(--fril-line); border-radius: 10px; color: var(--fril-text); cursor: pointer; background: var(--fril-paper-2); }
-  body:has(#fril-mobile-switch:checked) #aside { visibility: visible; transform: translateX(0); }
   body #aside { z-index: 410; }
+  body #aside .profile { display: block; position: relative; margin: 0 0 20px; padding: 0 0 14px; border-bottom: 1px solid var(--fril-line); background: transparent; }
+  body #aside .profile ul { display: flex; flex-wrap: wrap; gap: 7px; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+  body #aside .profile ul li { display: block; padding: 0; font-size: .84rem; }
+  body #aside .profile ul li a { display: block; padding: 7px 10px; border: 1px solid var(--fril-line); border-radius: 8px; color: var(--fril-text); background: var(--fril-paper-2); }
 }
 @media (max-width: 680px) {
   body #header .util { gap: 5px; }
-  body #header .util .fril-mobile-trigger { flex-basis: 36px; width: 36px; height: 36px; }
-  body #header .util .fril-mobile-trigger::before, body #header .util .fril-mobile-trigger::after, body #header .util .fril-mobile-trigger span { left: 9px; }
   body #content > .pagination { gap: 4px; padding: 12px 0 18px; }
   body #content > .pagination a { min-width: 34px; height: 36px; min-height: 36px; padding: 0 8px; border-radius: 9px; }
   body #content > .pagination .prev, body #content > .pagination .next { width: 36px; min-width: 36px; }

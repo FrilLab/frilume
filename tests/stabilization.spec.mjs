@@ -252,10 +252,10 @@ test('mobile drawer and mobile copy control remain operable', async ({ browser }
   const copyButton = page.locator('.fril-code-copy').first();
   await expect(copyButton).toBeVisible();
   await expect(copyButton).toHaveCSS('opacity', '1');
-  await page.locator('.fril-mobile-trigger').click();
+  await page.locator('#header .util .menu').click();
   await expect(page.locator('#aside')).toHaveCSS('visibility', 'visible');
-  await page.locator('.fril-mobile-close').click();
-  await expect(page.locator('#fril-mobile-switch')).not.toBeChecked();
+  await page.locator('#aside .close').click();
+  await expect(page.locator('body')).not.toHaveClass(/mobile-menu/);
   await context.close();
 });
 
