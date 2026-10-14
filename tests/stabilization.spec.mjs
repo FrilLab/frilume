@@ -134,6 +134,39 @@ for (const colorScheme of ['light', 'dark']) {
 }
 
 for (const colorScheme of ['light', 'dark']) {
+  test(`code block surfaces follow Frilume tokens in ${colorScheme} mode`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme });
+    await page.goto('/tests/fixture.html');
+    await page.locator('[data-view="article"]').click();
+    await page.addStyleTag({ content: `
+      #article-view pre { background-color: #fff !important; }
+      #article-view pre code.hljs { background-color: #fff !important; color: #000; }
+    ` });
+
+    const styles = await page.locator('.fril-code-frame').first().evaluate(frame => {
+      const pre = frame.querySelector('pre');
+      const code = pre.querySelector('code');
+      return {
+        paperToken: getComputedStyle(document.documentElement).getPropertyValue('--fril-paper-2'),
+        textToken: getComputedStyle(document.documentElement).getPropertyValue('--fril-text'),
+        frameBackground: getComputedStyle(frame).backgroundColor,
+        preBackground: getComputedStyle(pre).backgroundColor,
+        codeBackground: getComputedStyle(code).backgroundColor,
+        codeColor: getComputedStyle(code).color
+      };
+    });
+
+    const paper = tokenColorToRgb(styles.paperToken);
+    const text = tokenColorToRgb(styles.textToken);
+    expect(styles.frameBackground).toBe(paper);
+    expect(styles.preBackground).toBe('rgba(0, 0, 0, 0)');
+    expect(styles.codeBackground).toBe('rgba(0, 0, 0, 0)');
+    expect(styles.codeColor).toBe(text);
+    expect(contrastRatio(styles.codeColor, styles.frameBackground)).toBeGreaterThan(4.5);
+  });
+}
+
+for (const colorScheme of ['light', 'dark']) {
   for (const width of [390, 768, 1024, 1440]) {
     test(`${width}px ${colorScheme}: route layout, contrast, and overflow`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
