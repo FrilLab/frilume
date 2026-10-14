@@ -5605,46 +5605,33 @@ body .entry-content .fril-code-frame > pre > code {
   body .entry-content .fril-code-frame > pre { padding: 12px; }
 }
 
-/* Dark content normalization --------------------------------------------
-   Ordinary article headings and text use Frilume tokens, including editor
-   markup with classes, IDs, or inline colors. Styled article components keep
-   their own colors and surfaces. */
+/* Article text normalization ---------------------------------------------
+   Article text follows Frilume tokens in dark mode. Reader-added highlight
+   fills are removed, while code, media, quotes, tables, and known components
+   retain their own surfaces and colors. */
 @media (prefers-color-scheme: dark) {
-  body #article-view :is(h1, h2, h3, h4, h5, h6):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
+  body #article-view :is(h1, h2, h3, h4, h5, h6):not(blockquote *):not(table *):not(figure *):not(pre *):not(.fril-code-frame):not(.fril-code-frame *):not(#blender52-tistory):not(#blender52-tistory *):not(.protected_form):not(.protected_form *):not([data-ke-type="moreLess"]):not([data-ke-type="moreLess"] *) {
     color: var(--fril-heading) !important;
     -webkit-text-fill-color: var(--fril-heading) !important;
   }
-  body #article-view :is(p, li):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
+  body #article-view :is(p, ul, ol, li):not(blockquote *):not(table *):not(figure *):not(pre *):not(.fril-code-frame):not(.fril-code-frame *):not(#blender52-tistory):not(#blender52-tistory *):not(.protected_form):not(.protected_form *):not([data-ke-type="moreLess"]):not([data-ke-type="moreLess"] *) {
     color: var(--fril-text) !important;
     -webkit-text-fill-color: var(--fril-text) !important;
   }
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li, span, font, strong, b, em, i):is(
-    [style*="background: #fff" i], [style*="background:#fff" i],
-    [style*="background-color: #fff" i], [style*="background-color:#fff" i],
-    [style*="background: white" i], [style*="background:white" i],
-    [style*="background-color: white" i], [style*="background-color:white" i],
-    [style*="background: rgb(255, 255, 255)" i], [style*="background:rgb(255,255,255)" i],
-    [style*="background-color: rgb(255, 255, 255)" i], [style*="background-color:rgb(255,255,255)" i],
-    [style*="background: rgba(255, 255, 255, 1" i], [style*="background-color: rgba(255, 255, 255, 1" i]
-  ):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *),
-  body #article-view :is(div, section):has(> :is(h1, h2, h3, h4, h5, h6, p, li)):is(
-    [style*="background: #fff" i], [style*="background:#fff" i],
-    [style*="background-color: #fff" i], [style*="background-color:#fff" i],
-    [style*="background: white" i], [style*="background:white" i],
-    [style*="background-color: white" i], [style*="background-color:white" i],
-    [style*="background: rgb(255, 255, 255)" i], [style*="background:rgb(255,255,255)" i],
-    [style*="background-color: rgb(255, 255, 255)" i], [style*="background-color:rgb(255,255,255)" i],
-    [style*="background: rgba(255, 255, 255, 1" i], [style*="background-color: rgba(255, 255, 255, 1" i]
-  ):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, ul, ol, li, span, font, strong, b, em, i, mark):not(a *):not(blockquote *):not(table *):not(figure *):not(pre *):not(code *):not(.fril-code-frame):not(.fril-code-frame *):not(#blender52-tistory):not(#blender52-tistory *):not(.protected_form):not(.protected_form *):not([data-ke-type="moreLess"]):not([data-ke-type="moreLess"] *) {
     background-color: transparent !important;
   }
-  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i):not(a *):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
+  /* Inline fills on classed or unclassed content wrappers. */
+  body #article-view :is(div, section)[style*="background" i]:not(a *):not(blockquote *):not(table *):not(figure *):not(pre *):not(code *):not(.fril-code-frame):not(.fril-code-frame *):not(#blender52-tistory):not(#blender52-tistory *):not(.protected_form):not(.protected_form *):not([data-ke-type="moreLess"]):not([data-ke-type="moreLess"] *) {
+    background-color: transparent !important;
+  }
+  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i, mark):not(a *):not(blockquote *):not(table *):not(figure *):not(pre *):not(code *):not(#blender52-tistory):not(#blender52-tistory *):not(.protected_form):not(.protected_form *):not([data-ke-type="moreLess"]):not([data-ke-type="moreLess"] *) {
     color: var(--fril-heading) !important;
     -webkit-text-fill-color: var(--fril-heading) !important;
   }
-  body #article-view :is(p, li) :is(span, font, strong, b, em, i):not(a *):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
-    color: var(--fril-text) !important;
-    -webkit-text-fill-color: var(--fril-text) !important;
+  body #article-view :is(p, li) :is(span, font, strong, b, em, i, mark):not(a *):not(blockquote *):not(table *):not(figure *):not(pre *):not(code *):not(#blender52-tistory):not(#blender52-tistory *):not(.protected_form):not(.protected_form *):not([data-ke-type="moreLess"]):not([data-ke-type="moreLess"] *) {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
   }
   body #article-view figure[data-ke-type="opengraph"] .og-text { background-color: var(--fril-paper-2); }
   body #article-view figure[data-ke-type="opengraph"] .og-title { color: var(--fril-heading); }

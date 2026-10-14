@@ -66,9 +66,17 @@ for (const colorScheme of ['light', 'dark']) {
         textToken: getComputedStyle(document.documentElement).getPropertyValue('--fril-text'),
         inlineTitle: read('#article-view > h2'),
         classedTitle: read('#classed-title'),
+        classedTitleInline: read('#classed-title-inline'),
         parentTitle: read('#mini-game-title'),
         titlePanel: read('#parent-title-panel'),
-        classedCopy: read('#classed-copy')
+        classedCopy: read('#classed-copy'),
+        list: read('#themed-list'),
+        listItem: read('#themed-list-item'),
+        listInline: read('#themed-list-inline'),
+        orderedList: read('#themed-ordered-list'),
+        mark: read('#themed-mark'),
+        customComponent: read('#blender52-tistory'),
+        customComponentTitle: read('#custom-component-title')
       };
     });
 
@@ -77,21 +85,50 @@ for (const colorScheme of ['light', 'dark']) {
       const text = tokenColorToRgb(styles.textToken);
       expect(styles.inlineTitle.color).toBe(heading);
       expect(styles.classedTitle.color).toBe(heading);
+      expect(styles.classedTitleInline.color).toBe(heading);
       expect(styles.parentTitle.color).toBe(heading);
       expect(styles.classedCopy.color).toBe(text);
+      expect(styles.list.color).toBe(text);
+      expect(styles.listItem.color).toBe(text);
+      expect(styles.listInline.color).toBe(text);
+      expect(styles.orderedList.color).toBe(text);
+      expect(styles.mark.color).toBe(text);
+      expect(styles.customComponentTitle.color).toBe('rgb(0, 0, 0)');
       expect(styles.inlineTitle.background).toBe('rgba(0, 0, 0, 0)');
       expect(styles.classedTitle.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.classedTitleInline.background).toBe('rgba(0, 0, 0, 0)');
       expect(styles.parentTitle.background).toBe('rgba(0, 0, 0, 0)');
       expect(styles.titlePanel.background).toBe('rgba(0, 0, 0, 0)');
       expect(styles.classedCopy.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.list.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.listItem.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.listInline.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.orderedList.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.mark.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.customComponent.background).toBe('rgb(255, 255, 255)');
+      expect(styles.customComponentTitle.background).toBe('rgb(255, 255, 255)');
     } else {
       expect(styles.inlineTitle.color).toBe('rgb(0, 0, 0)');
       expect(styles.classedTitle.color).toBe('rgb(0, 0, 0)');
+      expect(styles.classedTitleInline.color).toBe('rgb(0, 0, 0)');
       expect(styles.parentTitle.color).toBe('rgb(0, 0, 0)');
       expect(styles.classedCopy.color).toBe('rgb(0, 0, 0)');
+      expect(styles.list.color).toBe('rgb(0, 0, 0)');
+      expect(styles.listItem.color).toBe('rgb(0, 0, 0)');
+      expect(styles.listInline.color).toBe('rgb(0, 0, 0)');
+      expect(styles.orderedList.color).toBe('rgb(0, 0, 0)');
+      expect(styles.mark.color).toBe('rgb(0, 0, 0)');
       expect(styles.classedTitle.background).toBe('rgb(255, 255, 255)');
+      expect(styles.classedTitleInline.background).toBe('rgb(255, 255, 255)');
       expect(styles.titlePanel.background).toBe('rgb(255, 255, 255)');
       expect(styles.classedCopy.background).toBe('rgb(255, 255, 255)');
+      expect(styles.list.background).toBe('rgb(255, 255, 255)');
+      expect(styles.listItem.background).toBe('rgb(255, 255, 255)');
+      expect(styles.listInline.background).toBe('rgb(255, 204, 73)');
+      expect(styles.orderedList.background).toBe('rgb(255, 255, 255)');
+      expect(styles.mark.background).toBe('rgb(255, 204, 73)');
+      expect(styles.customComponent.background).toBe('rgb(255, 255, 255)');
+      expect(styles.customComponentTitle.background).toBe('rgb(255, 255, 255)');
     }
   });
 }
