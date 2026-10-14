@@ -1571,6 +1571,34 @@
 
   const resetTimers = new WeakMap();
   const copyLabel = '복사';
+  const languageNames = {
+    rs: 'Rust',
+    rust: 'Rust',
+    js: 'JavaScript',
+    javascript: 'JavaScript',
+    ts: 'TypeScript',
+    typescript: 'TypeScript',
+    jsx: 'JSX',
+    tsx: 'TSX',
+    py: 'Python',
+    python: 'Python',
+    java: 'Java',
+    html: 'HTML',
+    css: 'CSS',
+    json: 'JSON',
+    yaml: 'YAML',
+    yml: 'YAML',
+    toml: 'TOML',
+    bash: 'Bash',
+    shell: 'Shell',
+    sh: 'Shell',
+    sql: 'SQL',
+    go: 'Go',
+    c: 'C',
+    cpp: 'C++',
+    less: 'Less',
+    http: 'HTTP'
+  };
   const ignoredCodeNodes = [
     '.hljs-ln-numbers',
     '.line-numbers-rows',
@@ -1591,6 +1619,60 @@
       frame.className = 'fril-code-frame';
       pre.parentNode.insertBefore(frame, pre);
       frame.appendChild(pre);
+
+      const hasExistingNumbers = pre.querySelector(
+        '.hljs-ln, .hljs-ln-numbers, .line-numbers-rows'
+      );
+
+      const source = getCodeText(code).replace(/\r\n?/g, '\n');
+      const lineCount = Math.max(
+        1,
+        source.split('\n').length - (source.endsWith('\n') ? 1 : 0)
+      );
+
+      const classes = [...code.classList, ...pre.classList];
+      const candidates = [
+        code.getAttribute('data-ke-language'),
+        pre.getAttribute('data-ke-language'),
+        code.getAttribute('data-language'),
+        pre.getAttribute('data-language'),
+        ...classes.map(name => name.match(/^(?:language|lang)-(.+)$/i)?.[1]),
+        ...classes.filter(name =>
+          Object.prototype.hasOwnProperty.call(languageNames, name.toLowerCase())
+        )
+      ];
+
+      const rawLanguage = candidates
+        .map(value => typeof value === 'string' ? value.trim() : '')
+        .find(value => value && !/^(text|plaintext|plain|none|auto)$/i.test(value));
+      let language = '';
+      if (rawLanguage) {
+        const languageKey = rawLanguage.toLowerCase();
+        language = Object.prototype.hasOwnProperty.call(languageNames, languageKey)
+          ? languageNames[languageKey]
+          : rawLanguage;
+      }
+
+      frame.dataset.frilCodeInfo = language
+        ? `${language} · ${lineCount} ${lineCount === 1 ? 'line' : 'lines'}`
+        : `${lineCount} ${lineCount === 1 ? 'line' : 'lines'}`;
+
+      if (!hasExistingNumbers) {
+        const gutter = document.createElement('div');
+        gutter.className = 'fril-code-lines';
+        gutter.setAttribute('aria-hidden', 'true');
+
+        const fragment = document.createDocumentFragment();
+        for (let i = 0; i < lineCount; i++) {
+          const line = document.createElement('span');
+          line.className = 'fril-code-line-number';
+          fragment.appendChild(line);
+        }
+
+        gutter.appendChild(fragment);
+        frame.insertBefore(gutter, pre);
+        frame.classList.add('fril-has-lines');
+      }
 
       const button = document.createElement('button');
       button.type = 'button';
