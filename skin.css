@@ -5444,7 +5444,7 @@ body [data-tistory-react-app="Namecard"] .tt_desc {
    horizontal scrolling keeps the line numbers and copy button in place. */
 .fril-code-frame {
   display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
+  grid-template-columns: max-content minmax(0, 1fr);
   grid-template-rows: 38px auto;
   position: relative;
   min-width: 0;
@@ -5480,11 +5480,12 @@ body [data-tistory-react-app="Namecard"] .tt_desc {
   grid-column: 1;
   grid-row: 2;
   min-width: 0;
-  padding: 12px 9px 12px 0;
+  padding: 12px 6px;
   border-right: 1px solid var(--fril-line);
   background: var(--fril-blue-subtle);
   color: var(--fril-muted);
   font: inherit;
+  font-variant-numeric: tabular-nums;
   text-align: right;
   counter-reset: fril-code-line;
   user-select: none;
@@ -5597,7 +5598,6 @@ body .entry-content .fril-code-frame > pre > code {
 
 @media (max-width: 680px) {
   .fril-code-frame {
-    grid-template-columns: 40px minmax(0, 1fr);
     font-size: .8rem;
   }
 
@@ -5606,45 +5606,45 @@ body .entry-content .fril-code-frame > pre > code {
 }
 
 /* Dark content normalization --------------------------------------------
-   Correct common editor-inserted black text/white block fills only. Links,
-   code, tables, quotes, OG cards and media keep their own component styling. */
+   Ordinary article headings and text use Frilume tokens, including editor
+   markup with classes, IDs, or inline colors. Styled article components keep
+   their own colors and surfaces. */
 @media (prefers-color-scheme: dark) {
-  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: #000" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color:#000" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: black" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: rgb(0, 0, 0)" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color:rgb(0,0,0)" i] {
+  body #article-view :is(h1, h2, h3, h4, h5, h6):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
     color: var(--fril-heading) !important;
-    -webkit-text-fill-color: var(--fril-heading);
+    -webkit-text-fill-color: var(--fril-heading) !important;
   }
-  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: #000" i],
-  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color:#000" i],
-  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: black" i],
-  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color: rgb(0, 0, 0)" i],
-  body #article-view :is(p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="color:rgb(0,0,0)" i] {
+  body #article-view :is(p, li):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
     color: var(--fril-text) !important;
-    -webkit-text-fill-color: var(--fril-text);
+    -webkit-text-fill-color: var(--fril-text) !important;
   }
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background: #fff" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background:#fff" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color: #fff" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color:#fff" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background: white" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color: white" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background: rgb(255, 255, 255)" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color: rgb(255, 255, 255)" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background:rgb(255,255,255)" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li):not([class]):not([id]):not(blockquote *):not(table *):not(figure[data-ke-type="opengraph"] *)[style*="background-color:rgb(255,255,255)" i] {
+  body #article-view :is(h1, h2, h3, h4, h5, h6, p, li, span, font, strong, b, em, i):is(
+    [style*="background: #fff" i], [style*="background:#fff" i],
+    [style*="background-color: #fff" i], [style*="background-color:#fff" i],
+    [style*="background: white" i], [style*="background:white" i],
+    [style*="background-color: white" i], [style*="background-color:white" i],
+    [style*="background: rgb(255, 255, 255)" i], [style*="background:rgb(255,255,255)" i],
+    [style*="background-color: rgb(255, 255, 255)" i], [style*="background-color:rgb(255,255,255)" i],
+    [style*="background: rgba(255, 255, 255, 1" i], [style*="background-color: rgba(255, 255, 255, 1" i]
+  ):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *),
+  body #article-view :is(div, section):has(> :is(h1, h2, h3, h4, h5, h6, p, li)):is(
+    [style*="background: #fff" i], [style*="background:#fff" i],
+    [style*="background-color: #fff" i], [style*="background-color:#fff" i],
+    [style*="background: white" i], [style*="background:white" i],
+    [style*="background-color: white" i], [style*="background-color:white" i],
+    [style*="background: rgb(255, 255, 255)" i], [style*="background:rgb(255,255,255)" i],
+    [style*="background-color: rgb(255, 255, 255)" i], [style*="background-color:rgb(255,255,255)" i],
+    [style*="background: rgba(255, 255, 255, 1" i], [style*="background-color: rgba(255, 255, 255, 1" i]
+  ):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
     background-color: transparent !important;
   }
-  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color: #000" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color:#000" i],
-  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color: black" i],
-  body #article-view :is(p, li) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color: #000" i],
-  body #article-view :is(p, li) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color:#000" i],
-  body #article-view :is(p, li) :is(span, font, strong, b, em, i):not([class]):not([id]):not(a *):not(td *):not(th *):not(blockquote *):not(figure[data-ke-type="opengraph"] *):not(#blender52-tistory *)[style*="color: black" i] {
+  body #article-view :is(h1, h2, h3, h4, h5, h6) :is(span, font, strong, b, em, i):not(a *):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
+    color: var(--fril-heading) !important;
+    -webkit-text-fill-color: var(--fril-heading) !important;
+  }
+  body #article-view :is(p, li) :is(span, font, strong, b, em, i):not(a *):not(blockquote *):not(table *):not(figure *):not(pre *):not(#blender52-tistory *):not(.protected_form *):not([data-ke-type="moreLess"] *) {
     color: var(--fril-text) !important;
-    -webkit-text-fill-color: var(--fril-text);
+    -webkit-text-fill-color: var(--fril-text) !important;
   }
   body #article-view figure[data-ke-type="opengraph"] .og-text { background-color: var(--fril-paper-2); }
   body #article-view figure[data-ke-type="opengraph"] .og-title { color: var(--fril-heading); }

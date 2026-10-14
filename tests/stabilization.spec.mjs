@@ -28,6 +28,11 @@ function contrastRatio(foreground, background) {
   return (values[0] + 0.05) / (values[1] + 0.05);
 }
 
+function tokenColorToRgb(color) {
+  const channels = color.trim().match(/[0-9a-f]{2}/gi).map(value => parseInt(value, 16));
+  return `rgb(${channels.join(', ')})`;
+}
+
 test('Tistory contract is unchanged and source parses', async () => {
   const placeholders = countMatches(skinHtml, /\[##_.*?_##\]/g);
   const tistoryTags = countMatches(skinHtml, /<\/?s_[\w-]+/g);
@@ -43,6 +48,53 @@ test('Tistory contract is unchanged and source parses', async () => {
   expect(copyScript).not.toBe('');
   expect(() => new Function(copyScript)).not.toThrow();
 });
+
+for (const colorScheme of ['light', 'dark']) {
+  test(`article title normalization handles inline colors, classes, and parent fills in ${colorScheme} mode`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme });
+    await page.goto('/tests/fixture.html');
+    await page.locator('[data-view="article"]').click();
+
+    const styles = await page.evaluate(() => {
+      const read = selector => {
+        const node = document.querySelector(selector);
+        const style = getComputedStyle(node);
+        return { color: style.color, background: style.backgroundColor };
+      };
+      return {
+        headingToken: getComputedStyle(document.documentElement).getPropertyValue('--fril-heading'),
+        textToken: getComputedStyle(document.documentElement).getPropertyValue('--fril-text'),
+        inlineTitle: read('#article-view > h2'),
+        classedTitle: read('#classed-title'),
+        parentTitle: read('#mini-game-title'),
+        titlePanel: read('#parent-title-panel'),
+        classedCopy: read('#classed-copy')
+      };
+    });
+
+    if (colorScheme === 'dark') {
+      const heading = tokenColorToRgb(styles.headingToken);
+      const text = tokenColorToRgb(styles.textToken);
+      expect(styles.inlineTitle.color).toBe(heading);
+      expect(styles.classedTitle.color).toBe(heading);
+      expect(styles.parentTitle.color).toBe(heading);
+      expect(styles.classedCopy.color).toBe(text);
+      expect(styles.inlineTitle.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.classedTitle.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.parentTitle.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.titlePanel.background).toBe('rgba(0, 0, 0, 0)');
+      expect(styles.classedCopy.background).toBe('rgba(0, 0, 0, 0)');
+    } else {
+      expect(styles.inlineTitle.color).toBe('rgb(0, 0, 0)');
+      expect(styles.classedTitle.color).toBe('rgb(0, 0, 0)');
+      expect(styles.parentTitle.color).toBe('rgb(0, 0, 0)');
+      expect(styles.classedCopy.color).toBe('rgb(0, 0, 0)');
+      expect(styles.classedTitle.background).toBe('rgb(255, 255, 255)');
+      expect(styles.titlePanel.background).toBe('rgb(255, 255, 255)');
+      expect(styles.classedCopy.background).toBe('rgb(255, 255, 255)');
+    }
+  });
+}
 
 for (const colorScheme of ['light', 'dark']) {
   for (const width of [390, 768, 1024, 1440]) {
@@ -211,15 +263,124 @@ test('code copy preserves source text, drops line numbers, and binds only once',
   await page.goto('/tests/fixture.html');
   await page.locator('[data-view="article"]').click();
   const button = page.locator('.fril-code-copy').first();
-  await expect(button).toHaveCSS('opacity', '0');
-  await button.focus();
   await expect(button).toHaveCSS('opacity', '1');
+  await expect(button).toBeVisible();
   await page.addScriptTag({ content: copyScript });
   await button.click();
   await expect(button).toHaveText('복사 완료');
   expect(await page.evaluate(() => window.__copyCalls)).toBe(1);
   expect(await page.evaluate(() => window.__copiedText)).toBe('.card {\n  color: #2764e8;\n\n  padding: 12px;\n}');
   expect(await button.getAttribute('aria-label')).toBe('코드 복사 완료');
+});
+
+for (const width of [390, 1440]) {
+  test(`code gutter sizes to digit count and stays aligned at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/tests/fixture.html?code-gutters=1');
+    await page.locator('[data-view="article"]').click();
+
+    const frames = page.locator('.fril-code-frame:has(pre[data-gutter-lines])');
+    await expect(frames).toHaveCount(6);
+    const sizes = await frames.evaluateAll(nodes => nodes.map(frame => {
+      const gutter = frame.querySelector('.fril-code-lines');
+      const pre = frame.querySelector('pre');
+      const code = pre.querySelector('code');
+      const lastNumber = gutter.lastElementChild;
+      const text = code.firstChild;
+      const lastLineStart = text.textContent.lastIndexOf('\n') + 1;
+      const firstRange = document.createRange();
+      firstRange.setStart(text, 0);
+      firstRange.setEnd(text, 1);
+      const range = document.createRange();
+      range.setStart(text, lastLineStart);
+      range.setEnd(text, lastLineStart + 1);
+      const codeFirstLine = firstRange.getBoundingClientRect();
+      const codeLastLine = range.getBoundingClientRect();
+      const numberFirstLine = gutter.firstElementChild.getBoundingClientRect();
+      const numberLastLine = lastNumber.getBoundingClientRect();
+      return {
+        count: Number(pre.dataset.gutterLines),
+        gutterWidth: gutter.getBoundingClientRect().width,
+        numberCount: gutter.children.length,
+        lineHeader: frame.dataset.frilCodeInfo,
+        numberPitch: (numberLastLine.top - numberFirstLine.top) / Math.max(1, gutter.children.length - 1),
+        codePitch: (codeLastLine.top - codeFirstLine.top) / Math.max(1, gutter.children.length - 1),
+        numberLineHeight: getComputedStyle(lastNumber).lineHeight,
+        codeLineHeight: getComputedStyle(code).lineHeight,
+        codeWhiteSpace: getComputedStyle(code).whiteSpace,
+        buttonVisible: getComputedStyle(frame.querySelector('.fril-code-copy')).opacity === '1',
+        frameX: frame.getBoundingClientRect().x,
+        gutterX: gutter.getBoundingClientRect().x,
+        preWidth: pre.clientWidth,
+        preScrollWidth: pre.scrollWidth,
+        codeClass: code.className
+      };
+    }));
+
+    const byCount = Object.fromEntries(sizes.map(item => [item.count, item]));
+    expect(byCount[5].lineHeader).toBe('Rust · 5 lines');
+    expect(byCount[5].gutterWidth).toBe(byCount[9].gutterWidth);
+    expect(byCount[9].gutterWidth).toBeLessThan(byCount[10].gutterWidth);
+    expect(byCount[10].gutterWidth).toBe(byCount[99].gutterWidth);
+    expect(byCount[99].gutterWidth).toBeLessThan(byCount[100].gutterWidth);
+    expect(byCount[100].gutterWidth).toBeLessThan(byCount[1000].gutterWidth);
+
+    for (const item of sizes) {
+      expect(item.numberCount).toBe(item.count);
+      expect(Math.abs(item.numberPitch - item.codePitch)).toBeLessThan(1);
+      expect(item.numberLineHeight).toBe(item.codeLineHeight);
+      expect(item.codeWhiteSpace).toBe('pre');
+      expect(item.buttonVisible).toBeTruthy();
+      expect(item.gutterX).toBe(item.frameX + 1);
+      expect(item.codeClass).toContain('hljs');
+    }
+
+    const longLineFrame = page.locator('.fril-code-frame').filter({ has: page.locator('.long-code') });
+    const scrollState = await longLineFrame.evaluate(frame => {
+      const pre = frame.querySelector('pre');
+      const gutter = frame.querySelector('.fril-code-lines');
+      const button = frame.querySelector('.fril-code-copy');
+      const gutterX = gutter.getBoundingClientRect().x;
+      const buttonOpacity = getComputedStyle(button).opacity;
+      pre.scrollLeft = pre.scrollWidth;
+      return {
+        maxScroll: pre.scrollWidth - pre.clientWidth,
+        scrollLeft: pre.scrollLeft,
+        gutterXBefore: gutterX,
+        gutterXAfter: gutter.getBoundingClientRect().x,
+        buttonOpacity
+      };
+    });
+    expect(scrollState.maxScroll).toBeGreaterThan(0);
+    expect(scrollState.scrollLeft).toBe(scrollState.maxScroll);
+    expect(scrollState.gutterXAfter).toBe(scrollState.gutterXBefore);
+    expect(scrollState.buttonOpacity).toBe('1');
+  });
+}
+
+test('code can be selected by dragging without selecting line numbers', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/tests/fixture.html?code-gutters=1');
+  await page.locator('[data-view="article"]').click();
+  const code = page.locator('.fril-code-frame pre[data-gutter-lines="5"] code');
+  const box = await code.boundingBox();
+  await page.mouse.move(box.x + 5, box.y + 8);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 105, box.y + 8, { steps: 8 });
+  await page.mouse.up();
+  const selection = await page.evaluate(() => {
+    const current = getSelection();
+    const isCodeNode = node => Boolean(node?.parentElement?.closest('code'));
+    return {
+      text: current.toString(),
+      startsInCode: isCodeNode(current.anchorNode),
+      endsInCode: isCodeNode(current.focusNode)
+    };
+  });
+  expect(selection.text).toContain('line_0001');
+  expect(selection.text).not.toMatch(/^\s*1\s*fn/);
+  expect(selection.startsInCode).toBeTruthy();
+  expect(selection.endsInCode).toBeTruthy();
 });
 
 test('clipboard fallback succeeds when supported and displays failure when denied', async ({ page }) => {
