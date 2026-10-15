@@ -4148,12 +4148,12 @@ hr[data-ke-style='style8'],
 
 /* 테이블 */
 #article-view table[data-ke-style] {
-  margin-bottom: 0px;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 #article-view table {
   border-color: #ddd;
-  margin-bottom: 0px;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
 }
 
 #article-view table tbody tr {
@@ -4854,9 +4854,10 @@ body .entry-content :not(pre) > code { padding: .15em .36em; border-radius: 6px;
 body .entry-content blockquote { padding: 14px 24px; border-left: 4px solid var(--fril-yellow); border-radius: 0 12px 12px 0; color: var(--fril-text); background: var(--fril-paper-2); }
 body .entry-content blockquote p { color: inherit; }
 body .entry-content hr { border: 0; border-bottom: 1px solid var(--fril-line); }
-body .entry-content table { max-width: 100%; display: block; overflow-x: auto; border-collapse: collapse; scrollbar-width: thin; }
+body .entry-content table { width: 100%; max-width: 100%; box-sizing: border-box; table-layout: fixed; border-collapse: collapse; }
 body .entry-content table th { background: var(--fril-blue-subtle); color: var(--fril-heading); }
-body .entry-content table th, body .entry-content table td { border-color: var(--fril-line); }
+/* Use the site's border color for article tables. */
+body .entry-content table, body .entry-content table th, body .entry-content table td { border-color: var(--fril-line) !important; }
 body .entry-content img { max-width: 100%; height: auto; border-radius: 9px; }
 /* Tistory injects its own article-editor rules (#article-view ...) that set
    #000/#333. The root inherits the theme; only tagged editor headings and
@@ -4922,6 +4923,7 @@ body .comments, body .tt-comments-wrap, body .comment-form { color: var(--fril-t
 body .comment-form .submit button, body .protected_form .btn { color: #071b3d; background: var(--fril-yellow); border-radius: 10px; }
 body #content .another_category { max-width: 100%; color: var(--fril-text); }
 body #content .another_category h4 { color: var(--fril-heading); }
+body #content .another_category.another_category_color_gray th { background: transparent !important; }
 body #content .another_category table th, body #content .another_category table td { color: var(--fril-text); }
 body #footer { margin: 0; padding: 45px 28px 52px; background: var(--fril-paper); border-top: 1px solid var(--fril-line); }
 body #footer .inner { max-width: 1392px; }
@@ -5615,6 +5617,11 @@ body .entry-content .fril-code-frame > pre > code {
     -webkit-text-fill-color: var(--fril-heading) !important;
   }
   body #article-view :is(p, ul, ol, li):not(blockquote *):not(table *):not(figure *):not(pre *):not(.fril-code-frame):not(.fril-code-frame *):not(#blender52-tistory):not(#blender52-tistory *):not(.protected_form):not(.protected_form *):not([data-ke-type="moreLess"]):not([data-ke-type="moreLess"] *) {
+    color: var(--fril-text) !important;
+    -webkit-text-fill-color: var(--fril-text) !important;
+  }
+  body #article-view blockquote,
+  body #article-view blockquote *:not(a):not(a *):not(code):not(code *):not(pre):not(pre *) {
     color: var(--fril-text) !important;
     -webkit-text-fill-color: var(--fril-text) !important;
   }
